@@ -25,7 +25,7 @@ struct ContentView: View {
             VStack(spacing: 15) {
 
                 VStack{
-                    Text("Tap the flag of").font(Font.custom("Avenir Heavy", size: 24)).foregroundColor(.white).fontWeight(.heavy)
+                    Text("Tap the flag").makeBig()
                     Text(countries[correctAnswer]).font(Font.custom("Avenir Heavy", size: 24)).foregroundColor(.orange)
                 }
                 ForEach(0..<3, id: \.self) { k in
@@ -35,10 +35,7 @@ struct ContentView: View {
                         questionCount += 1
                         isAnswerCorrect()
                     }, label: {
-                        Image(countries[k])
-                            .resizable()
-                            .clipShape(Capsule())
-                            .shadow(radius: 10)
+                        FlagView(imageName: countries[k])
                     })
                 }
 
@@ -95,8 +92,36 @@ struct ContentView: View {
         correctAnswer = Int.random(in: 0...2)
         showingScore = false
     }
+    
 
 }
+
+extension View {
+    
+    func makeBig() -> some View {
+        modifier(Title())
+    }
+}
+
+struct FlagView : View {
+    var imageName: String
+    var body: some View {
+        Image(imageName)
+            .resizable()
+            .clipShape(Capsule())
+            .shadow(radius: 10)
+    }
+}
+
+struct Title: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.white)
+            .font(Font.custom("Avenir Heavy", size: 32))
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
